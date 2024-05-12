@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -91,6 +92,17 @@ void change_snake_direction(Snake *snake, Direction lastDirectionMovement, Direc
   snake->direction = direction;
 }
 
+bool is_colliding_with_itself(Snake *snake) {
+  Vector2 head = snake->tail.positions[0];
+
+  for (int i = 1; snake->tail.size > i; i++) {
+    if (Vector2Equals(head, snake->tail.positions[i]))
+      return true;
+  }
+
+  return false;
+}
+
 void update_snake(Snake *snake) {
   static float lastMove = 0;
   static Direction lastDirectionMovement = SNAKE_FIRST_DIRECTION;
@@ -99,16 +111,12 @@ void update_snake(Snake *snake) {
 
   if (lastMove > SNAKE_VELOCITY) {
 
-    Vector2 lastTailPosition = snake->tail.positions[snake->tail.size - 1];
-
     move_snake(snake);
 
-    if (IsKeyDown(KEY_A)) {
-      increase_tail(snake, lastTailPosition);
-
-      printf("Snake size: %i", snake->tail.size);
+    if (is_colliding_with_itself(snake)) {
+      return CloseWindow();
     }
-    //
+
     lastMove = 0;
     lastDirectionMovement = snake->direction;
   }

@@ -5,7 +5,7 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#define SNAKE_VELOCITY 0.8
+#define SNAKE_VELOCITY 0.4
 #define SNAKE_FIRST_DIRECTION RIGHT
 #define GRID_SIZE 20
 
@@ -26,6 +26,7 @@ void move_snake(Snake *snake);
 void draw_snake(Snake *snake);
 void change_snake_direction(Snake *snake, Direction lastDirectionMovement, Direction direction);
 void increase_tail(Snake *snake, Vector2 lastTailPosition);
+bool is_colliding_with_itself(Snake *snake);
 
 void update_snake(Snake *snake);
 
