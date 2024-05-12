@@ -13,3 +13,4 @@ add_subdirectory(lib/raylib)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib)
 
+file(COPY "${CMAKE_SOURCE_DIR}/assets" DESTINATION "${CMAKE_BINARY_DIR}")

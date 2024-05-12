@@ -5,11 +5,10 @@
 #include "snake.h"
 
 int main(void) {
-  Snake snake = create_snake();
-
-  spaw_food(&snake);
-
   InitWindow(GRID_SIZE * 20, GRID_SIZE * 20, "raylib [core] example - basic window");
+
+  Snake snake = create_snake();
+  spaw_food(&snake);
 
   while (!WindowShouldClose()) {
     BeginDrawing();

@@ -2,25 +2,71 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "raylib.h"
 #include "raymath.h"
 
 #include "snake.h"
 
+Image headUpImage;
+Image headRightImage;
+Image bodyImage;
+
+Texture2D headUpTexture;
+Texture2D headDownTexture;
+Texture2D headRightTexture;
+Texture2D headLeftTexture;
+Texture2D bodyTexture;
+
 Snake create_snake() {
   Snake snake;
 
-  snake.tail.positions = (Vector2 *)calloc(1, sizeof(Vector2 *));
-  snake.tail.size = 1;
+  snake.tail.positions = (Vector2 *)calloc(3, sizeof(Vector2 *));
+
+  snake.tail.positions[0] = (Vector2){2, 0};
+  snake.tail.positions[1] = (Vector2){1, 0};
+
+  snake.tail.size = 3;
   snake.direction = SNAKE_FIRST_DIRECTION;
+
+  headUpImage = LoadImage("./assets/head_up.png");
+  headRightImage = LoadImage("./assets/head_right.png");
+  bodyImage = LoadImage("./assets/body.png");
+
+  headUpTexture = LoadTextureFromImage(headUpImage);
+  headRightTexture = LoadTextureFromImage(headRightImage);
+  bodyTexture = LoadTextureFromImage(bodyImage);
+
+  ImageFlipVertical(&headUpImage);
+  headDownTexture = LoadTextureFromImage(headUpImage);
+
+  ImageFlipHorizontal(&headRightImage);
+  headLeftTexture = LoadTextureFromImage(headRightImage);
 
   return snake;
 }
 
 void draw_snake(Snake *snake) {
   for (int i = 0; snake->tail.size > i; i++) {
-    DrawRectangle(snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, 20, 20, RED);
+    if (i == 0) {
+      switch (snake->direction) {
+      case RIGHT:
+        DrawTexture(headRightTexture, snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, WHITE);
+        break;
+      case LEFT:
+        DrawTexture(headLeftTexture, snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, WHITE);
+        break;
+      case UP:
+        DrawTexture(headUpTexture, snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, WHITE);
+        break;
+      case DOWN:
+        DrawTexture(headDownTexture, snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, WHITE);
+        break;
+      }
+    } else {
+      DrawTexture(bodyTexture, snake->tail.positions[i].x * 20, snake->tail.positions[i].y * 20, WHITE);
+    }
   }
 }
 

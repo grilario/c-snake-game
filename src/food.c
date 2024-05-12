@@ -30,7 +30,7 @@ bool snake_ate_food(Snake *snake) {
   return Vector2Equals(head, foodPosition);
 }
 
-void draw_food() { DrawRectangle(foodPosition.x * 20, foodPosition.y * 20, 20, 20, SKYBLUE); }
+void draw_food() { DrawRectangle(foodPosition.x * 20, foodPosition.y * 20, 20, 20, MAROON); }
 
 void update_food(Snake *snake) {
   Vector2 lastTailPosition = snake->tail.positions[snake->tail.size - 1];
